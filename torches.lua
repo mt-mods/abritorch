@@ -50,6 +50,7 @@ for i in ipairs(colour_list) do
 		wield_scale = {x = 1, y = 1, z = 1 + 1/16},
 		drawtype = "mesh",
 		mesh = "torch_floor.obj",
+		use_texture_alpha = "clip",
 		tiles = {
 			{
 				name = "abritorch_torch_on_floor_animated_"..colour..".png",
@@ -76,6 +77,7 @@ for i in ipairs(colour_list) do
 		wield_scale = {x = 1, y = 1, z = 1 + 1/16},
 		drawtype = "mesh",
 		mesh = "torch_wall.obj",
+		use_texture_alpha = "clip",
 		tiles = {
 			{
 			    name = "abritorch_torch_on_floor_animated_"..colour..".png",
