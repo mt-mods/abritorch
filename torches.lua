@@ -200,3 +200,24 @@ if minetest.features.particlespawner_tweenable then
 		end
 	})
 end
+
+
+local CHECK_INTERVAL = 7.777
+local last_check = 0
+local clear_unloaded_particles = function(dtime)
+	last_check = last_check + dtime
+	if last_check < CHECK_INTERVAL then
+		return
+	else
+		last_check = last_check - CHECK_INTERVAL
+	end
+	for pos_hash, spawner_id in pairs(active_particle_spawners) do
+		local pos = minetest.get_position_from_hash(pos_hash)
+		if not minetest.get_node_or_nil(pos) then
+			minetest.delete_particlespawner(spawner_id)
+			active_particle_spawners[pos_hash] = nil
+		end
+	end
+end
+
+minetest.register_globalstep(clear_unloaded_particles)
