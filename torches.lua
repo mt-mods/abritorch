@@ -1,4 +1,6 @@
 
+local active_particle_spawners = {}
+
 local colour_list = {
 	{"black", "Darkened",}, {"blue", "Blue",},
 	{"cyan", "Cyan",}, {"green", "Green",},
@@ -8,6 +10,65 @@ local colour_list = {
 }
 
 local enable_ceiling = true
+
+local make_particle_generator = function(pos, node)
+	local pos_hash = minetest.hash_node_position(pos)
+	local spawner_id = active_particle_spawners[pos_hash]
+
+	if spawner_id then
+		return spawner_id
+	end
+
+	local color = node.name:split(":")[2]:split("_")[2]
+	if color=="frosted" then
+		color = "white"
+	end
+	local id = minetest.add_particlespawner({
+			pos = { min = vector.add(pos, vector.new(-0.1, 0.45, -0.1)), max = vector.add(pos, vector.new(0.1, 0.5, 0.1)) },
+			vel = { min = vector.new(0, 0, 0), max = vector.new( 0, 0.15, 0) },
+			acc = { min = vector.new(0, 0.1, 0), max = vector.new(0, 0.3, 0) },
+			time = 0, -- infinite time
+			amount = 2, -- 2 per second
+			exptime = 1,
+			collisiondetection = true,
+			collision_removal = true,
+			glow = 14,
+			texpool = {
+				{ name = "abritorch_spark.png", alpha_tween = { 1, 0 }, scale = 0.3 },
+				{ name = "abritorch_spark.png^[multiply:" .. color, alpha_tween = { 1, 0 }, scale = 0.5 },
+			}
+	})
+	active_particle_spawners[pos_hash] = id
+	return id
+end
+
+-- only return on_construct function if particles are supported
+local torch_on_construct = function()
+	if minetest.features.particlespawner_tweenable then
+		return function(pos)
+			local node = minetest.get_node(pos)
+			make_particle_generator(pos, node)
+		end
+	else
+		return nil
+	end
+end
+
+local torch_on_destruct = function()
+	if minetest.features.particlespawner_tweenable then
+		return function(pos)
+			local pos_hash = minetest.hash_node_position(pos)
+			local spawner_id = active_particle_spawners[pos_hash]
+			if spawner_id then
+				minetest.delete_particlespawner(spawner_id)
+				active_particle_spawners[pos_hash] = nil
+			end
+		end
+	else
+		return nil
+	end
+end
+
 
 for i in ipairs(colour_list) do
 	local colour = colour_list[i][1]
@@ -71,6 +132,8 @@ for i in ipairs(colour_list) do
 			wall_top = {-1/16, -2/16, -1/16, 1/16, 0.5, 1/16},
 			wall_bottom = {-1/16, -0.5, -1/16, 1/16, 2/16, 1/16},
 		},
+		on_construct = torch_on_construct(),
+		on_destruct = torch_on_destruct(),
 	})
 
 	minetest.register_node("abritorch:wall_"..colour, {
@@ -99,6 +162,8 @@ for i in ipairs(colour_list) do
 			wall_bottom = {-0.1, -0.5, -0.1, 0.1, 0.1, 0.1},
 			wall_side = {-0.5, -0.3, -0.1, -0.2, 0.3, 0.1},
 		},
+		on_construct = torch_on_construct(),
+		on_destruct = torch_on_destruct(),
 	})
 
 	minetest.register_abm({
@@ -123,32 +188,15 @@ for i in ipairs(colour_list) do
 	})
 end
 
+-- this is needed because particle generators need to be re-created after server restart
 if minetest.features.particlespawner_tweenable then
-	minetest.register_abm({
+	minetest.register_lbm({
+		label = "Make abritorch particles",
+		name = "abritorch:add_particle_spawner",
 		nodenames = { "group:abritorch" },
-		interval = 1,
-		chance = 1,
-		catch_up = false,
-		action = function(pos, node)
-			local color = node.name:split(":")[2]:split("_")[2]
-			if color=="frosted" then
-				color = "white"
-			end
-			minetest.add_particlespawner({
-				pos = { min = vector.add(pos, vector.new(-0.1, 0.45, -0.1)), max = vector.add(pos, vector.new(0.1, 0.5, 0.1)) },
-				vel = { min = vector.new(0, 0, 0), max = vector.new( 0, 0.15, 0) },
-				acc = { min = vector.new(0, 0.1, 0), max = vector.new(0, 0.3, 0) },
-				time = 1,
-				amount = 2,
-				exptime = 1,
-				collisiondetection = true,
-				collision_removal = true,
-				glow = 14,
-				texpool = {
-					{ name = "abritorch_spark.png", alpha_tween = { 1, 0 }, scale = 0.3 },
-					{ name = "abritorch_spark.png^[multiply:" .. color, alpha_tween = { 1, 0 }, scale = 0.5 },
-				}
-			})
+		run_at_every_load = true,
+		action = function(pos, node, dtime_s)
+			make_particle_generator(pos, node)
 		end
 	})
 end
