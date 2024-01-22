@@ -213,7 +213,8 @@ local clear_unloaded_particles = function(dtime)
 	end
 	for pos_hash, spawner_id in pairs(active_particle_spawners) do
 		local pos = minetest.get_position_from_hash(pos_hash)
-		if not minetest.get_node_or_nil(pos) then
+		local node = minetest.get_node_or_nil(pos)
+		if (not node) or node.name:find("^abritorch:") == nil then
 			minetest.delete_particlespawner(spawner_id)
 			active_particle_spawners[pos_hash] = nil
 		end
