@@ -65,6 +65,7 @@ for i in ipairs(colour_list) do
 		walkable = false,
 		light_source = 13,
 		groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1, abritorch=1},
+		is_ground_content = false,
 		drop = "abritorch:torch_"..colour,
 		selection_box = {
 			type = "wallmounted",
@@ -92,6 +93,7 @@ for i in ipairs(colour_list) do
 		walkable = false,
 		light_source = 13,
 		groups = {choppy=2, dig_immediate=3, flammable=1, not_in_creative_inventory=1, attached_node=1, torch=1, abritorch=1},
+		is_ground_content = false,
 		drop = "abritorch:torch_"..colour,
 		selection_box = {
 			type = "wallmounted",
