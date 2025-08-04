@@ -18,6 +18,7 @@ for i in ipairs(colour_list) do
 		inventory_image = "abritorch_torch_on_floor_"..colour..".png",
 		wield_image = "abritorch_torch_on_floor_"..colour..".png",
 		wield_scale = {x = 1, y = 1, z = 1 + 1/16},
+		light_source = 13,
 		groups = { torch = 1 },
 		liquids_pointable = false,
 		use_texture_alpha = "clip",
