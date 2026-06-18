@@ -42,6 +42,8 @@ for i in ipairs(colour_list) do
 			itemstack = minetest.item_place(fakestack, placer, pointed_thing)
 			itemstack:set_name("abritorch:torch_"..colour)
 
+			core.sound_play("default_place_node", {gain = 0.5, pos = pointed_thing.above}, true)
+
 			return itemstack
 		end
 	})
@@ -73,6 +75,7 @@ for i in ipairs(colour_list) do
 			wall_top = {-1/16, -2/16, -1/16, 1/16, 0.5, 1/16},
 			wall_bottom = {-1/16, -0.5, -1/16, 1/16, 2/16, 1/16},
 		},
+		sounds = default.node_sound_wood_defaults(),
 	})
 
 	minetest.register_node("abritorch:wall_"..colour, {
@@ -102,6 +105,7 @@ for i in ipairs(colour_list) do
 			wall_bottom = {-0.1, -0.5, -0.1, 0.1, 0.1, 0.1},
 			wall_side = {-0.5, -0.3, -0.1, -0.2, 0.3, 0.1},
 		},
+		sounds = default.node_sound_wood_defaults(),
 	})
 
 	minetest.register_abm({
