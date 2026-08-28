@@ -1,25 +1,21 @@
 unused_args = false
 allow_defined_top = true
 
-exclude_files = {".luacheckrc"}
-
 globals = {
-    "minetest", "core",
-
-    --mod provided
     "abritorch",
 }
 
 read_globals = {
+    -- Luanti
+    "minetest", "core",
     string = {fields = {"split"}},
     table = {fields = {"copy", "getn"}},
+    "vector", "ItemStack",
+    "dump", "DIR_DELIM",
+    "VoxelArea", "Settings",
+    "PcgRandom", "VoxelManip",
+    "PseudoRandom",
 
-    --luac
-    "math", "table",
-
-    -- Builtin
-    "vector", "ItemStack", "dump", "DIR_DELIM", "VoxelArea", "Settings", "PcgRandom", "VoxelManip", "PseudoRandom",
-
-    --mod produced
+    -- Dependencies
     "default",
 }
