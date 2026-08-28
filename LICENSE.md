@@ -1,21 +1,23 @@
+# Licenses
 
-Textures:
+## Textures/Models
+
 Original torch textures from minetest_game/default
 Recoloured textures and edits by Shara RedCat
 
-abritorch_spark.png
-x2048 CC0
+`abritorch_spark.png` - x2048 CC0
 
 Torch model:
-License: CC-BY 3.0 
+License: CC-BY 3.0
 Attribution: BlockMen, from https://github.com/BlockMen/torches
 
-Code:
-License: MIT (https://opensource.org/licenses/MIT)
-Shara RedCat
-wsor
-x2048
+## Code/Translations
 
+License: [MIT](https://opensource.org/licenses/MIT)
+
+- Shara RedCat
+- wsor
+- 2048
 
 ---
 
