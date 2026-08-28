@@ -1,14 +1,16 @@
+local S = core.get_translator(core.get_current_modname())
+
 local colour_list = {
-	{ "black", "Darkened" },
-	{ "blue", "Blue" },
-	{ "cyan", "Cyan" },
-	{ "green", "Green" },
-	{ "magenta", "Magenta" },
-	{ "orange", "Orange" },
-	{ "purple", "Purple" },
-	{ "red", "Red" },
-	{ "yellow", "Yellow" },
-	{ "white", "Frosted" },
+	{ "black", S("Darkened") },
+	{ "blue", S("Blue") },
+	{ "cyan", S("Cyan") },
+	{ "green", S("Green") },
+	{ "magenta", S("Magenta") },
+	{ "orange", S("Orange") },
+	{ "purple", S("Purple") },
+	{ "red", S("Red") },
+	{ "yellow", S("Yellow") },
+	{ "white", S("Frosted") },
 }
 
 local enable_ceiling = true
@@ -18,7 +20,7 @@ for i in ipairs(colour_list) do
 	local desc = colour_list[i][2]
 
 	core.register_craftitem("abritorch:torch_" .. colour, {
-		description = desc .. " Torch",
+		description = S("@1 Torch", desc),
 		inventory_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_scale = { x = 1, y = 1, z = 1 + 1 / 16 },
@@ -54,7 +56,7 @@ for i in ipairs(colour_list) do
 	})
 
 	core.register_node("abritorch:floor_" .. colour, {
-		description = desc .. " Torch",
+		description = S("@1 Torch", desc),
 		inventory_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_scale = { x = 1, y = 1, z = 1 + 1 / 16 },
@@ -92,6 +94,7 @@ for i in ipairs(colour_list) do
 	})
 
 	core.register_node("abritorch:wall_" .. colour, {
+		description = S("@1 Torch", desc),
 		inventory_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_image = "abritorch_torch_on_floor_" .. colour .. ".png",
 		wield_scale = { x = 1, y = 1, z = 1 + 1 / 16 },
