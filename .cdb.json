@@ -1,6 +1,6 @@
 {
   "$schema": "https://content.luanti.org/api/cdb_schema/",
-  "title": "Basic Materials",
+  "title": "abritorch",
   "tags": ["decorative"],
   "type": "MOD",
   "dev_state": "MAINTENANCE_ONLY",
